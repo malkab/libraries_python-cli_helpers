@@ -8,7 +8,7 @@
 <% end %>
 
 name: cli_helpers
-root: <%= GITDIRF %>/libraries_python/cli_helpers
+root: <%= GITDIRF %>/libraries_python/libraries_python-cli_helpers
 
 windows:
   - docker: >
