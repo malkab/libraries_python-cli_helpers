@@ -12,4 +12,4 @@ docker run -ti --rm \
     -e PYTHONPATH=$PYTHONPATH:$(pwd)/src \
     -v $(pwd)/../src:$(pwd)/../src \
     --workdir $(pwd)/../src \
-    malkab/python:latest
+    malkab/python:3.9-buster
