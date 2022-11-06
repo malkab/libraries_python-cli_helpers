@@ -7,45 +7,40 @@ import math
 # --------------------------------------
 class InputTree:
   """
-
-  Docstring
-
-  Attributes
-  ----------
-  exposure : float
-      Exposure in seconds.
-
-  Methods
-  -------
-  colorspace(c='rgb')
-      Represent the photo in the given colorspace.
-  gamma(n=1.0)
-      Change the photo's gamma exposure.
-
+  Select an item from list by segmenting
+  it in groups and selecting recursively
+  until a single item is finally selected.
   """
+
 
   def __init__(self, tree=9):
     """
-    Docstring
+    Constructor.
 
     Parameters
     ----------
-    var : type
-        Doc
-
-    Returns
-    -------
-    var
-        Doc
-
+    tree : number
+        Number of items to segment choices.
     """
     self.tree = max(min(tree, 9), 2)
     self.history = []
     self.finish = None
 
 
-
   def input(self, choices):
+    """
+    Fire the input process.
+
+    Parameters
+    ----------
+    choices : string list
+        List of options to choose from.
+
+    Returns
+    -------
+    string
+        The final choice.
+    """
     choices = [ x.strip() for x in choices ]
 
     listSet = sorted(list(set(choices)))
@@ -53,45 +48,50 @@ class InputTree:
     return self._process(listSet)[0]
 
 
-
-
-
   def _print(self, choices):
+    """
+    Print the choices, depending on if it is still a list
+    of possible options or a single item.
 
+    Parameters
+    ----------
+    choices : list
+        List of possible options.
+    """
+    print()
+
+    # Print will depend on if the list is single element
+    # or not
     for i, v in enumerate(choices):
-      if isinstance(v, list):
-        print("%s:  %s - %s" % (i + 1, v[0], v[-1]))
+      if len(v) == 1:
+        print("%s:  %s" % (i + 1, v[0]))
       else:
-        print("%s:  %s" % (i + 1, v))
+        print("%s:  %s - %s" % (i + 1, v[0], v[-1]))
 
     if len(self.history) > 0:
-      print("\n0:  Go back")
-
-
-
+      print("0:  Go back")
 
 
   def _process(self, choices):
+    """
+    Internal recursive method to process shrinking
+    list of options.
 
-    print()
-    print("D: 4444", choices)
-    print()
+    Parameters
+    ----------
+    choices : list of strings
+        Available choices.
 
+    Returns
+    -------
+    list of strings
+        The filtered list of strings.
+    """
     if len(choices) == 1:
       return choices
 
-    # elif len(choices) <= self.tree:
-    #   self._print(choices)
-
-    #   print()
-    #   a = self._inputChoice()
-
-    #   return choices[int(a) - 1]
-
     else:
-
       segmentSize = len(choices) / self.tree
-
 
       segments = [ math.floor(i/segmentSize) for i, v in enumerate(choices) ]
 
@@ -113,14 +113,10 @@ class InputTree:
       print()
       a = self._inputChoice()
 
-      print("D: JJJJJ", a)
-
       if isinstance(a, list):
-
         return a
 
       else:
-
         selectedIndex = int(a) - 1
 
         self.history.append(choices)
@@ -128,16 +124,34 @@ class InputTree:
         return self._process(blocks[selectedIndex])
 
 
-
-
-
-
   def _inputChoice(self):
-    a = input()
+    """
+    Controls the input of the option.
 
-    if a == "0" and len(self.history) > 0:
-      b = self.history.pop()
+    Returns
+    -------
+    string
+        The input.
+    """
+    o = True
 
-      return self._process(b) #self.history.pop())
+    while o:
+      o = False
+      a = input()
 
-    return a
+      if len(a) > 0:
+        a = a[0]
+
+        if a.isnumeric() and a != "":
+          if a == "0" and len(self.history) > 0:
+            b = self.history.pop()
+
+            return self._process(b)
+
+          return a
+
+        else:
+          o = True
+
+      else:
+        o = True

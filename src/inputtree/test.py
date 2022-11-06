@@ -34,6 +34,6 @@ c = [
 
 ]
 
-a = InputTree(tree=3).input(c)
+a = InputTree(tree=9).input(c)
 
 print("Choice: %s" % a)
