@@ -1,0 +1,1 @@
+from .shortenString import shortenString

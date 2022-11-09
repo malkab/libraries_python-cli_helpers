@@ -1,4 +1,5 @@
 import math
+from utils import shortenString
 
 # --------------------------------------
 #
@@ -7,22 +8,31 @@ import math
 # --------------------------------------
 class InputTree:
   """
-  Select an item from list by segmenting
-  it in groups and selecting recursively
-  until a single item is finally selected.
+  CLI input to select a value from a list, segmenting the list in groups
+  selectable by numbers, allowing for back navigation, until individual elements
+  of the list are individually selectable.
   """
 
-
-  def __init__(self, tree=9):
+  def __init__(self, tree=9, maxLen=None, minLen=None, separator=" - ",
+    itemSeparator=": "):
     """
     Constructor.
 
-    Parameters
-    ----------
-    tree : number
-        Number of items to segment choices.
+    Args
+        tree (int, optional): Number of groups to use while asking for inputs.
+        Defaults to 9, minimum of 2.
+
+        maxLen (int, optional): Max length of items. Defaults to None.
+        minLen (int, optional): Min length of items. Defaults to None.
+        separator (str, optional): Separator of items. Defaults to " - ".
+        itemSeparator (str, optional): Separator between the item number and the
+        options. Defaults to ": ".
     """
     self.tree = max(min(tree, 9), 2)
+    self.maxLen = maxLen
+    self.minLen = minLen
+    self.separator = separator
+    self.itemSeparator = itemSeparator
     self.history = []
     self.finish = None
 
@@ -31,15 +41,11 @@ class InputTree:
     """
     Fire the input process.
 
-    Parameters
-    ----------
-    choices : string list
-        List of options to choose from.
+    Args:
+        choices (string list): List of options to choose from.
 
-    Returns
-    -------
-    string
-        The final choice.
+    Returns:
+        string: The final choice.
     """
     choices = [ x.strip() for x in choices ]
 
@@ -50,13 +56,11 @@ class InputTree:
 
   def _print(self, choices):
     """
-    Print the choices, depending on if it is still a list
-    of possible options or a single item.
+    Print the choices, depending on if it is still a list of possible options or
+    a single item.
 
-    Parameters
-    ----------
-    choices : list
-        List of possible options.
+    Args:
+        choices (string list): List of possible options.
     """
     print()
 
@@ -64,9 +68,13 @@ class InputTree:
     # or not
     for i, v in enumerate(choices):
       if len(v) == 1:
-        print("%s:  %s" % (i + 1, v[0]))
+        print("%s%s%s" % (i + 1, self.itemSeparator,
+          shortenString(v[0], self.maxLen, self.minLen)))
       else:
-        print("%s:  %s - %s" % (i + 1, v[0], v[-1]))
+        print("%s%s%s%s%s" % (i + 1, self.itemSeparator,
+          shortenString(v[0], self.maxLen, self.minLen),
+          self.separator,
+          shortenString(v[-1], self.maxLen, self.minLen)))
 
     if len(self.history) > 0:
       print("0:  Go back")
@@ -74,18 +82,13 @@ class InputTree:
 
   def _process(self, choices):
     """
-    Internal recursive method to process shrinking
-    list of options.
+    Internal recursive method to process shrinking list of options.
 
-    Parameters
-    ----------
-    choices : list of strings
-        Available choices.
+    Args:
+        choices (string list): Available choices.
 
-    Returns
-    -------
-    list of strings
-        The filtered list of strings.
+    Returns:
+        string list: The filtered list of strings.
     """
     if len(choices) == 1:
       return choices
@@ -128,10 +131,8 @@ class InputTree:
     """
     Controls the input of the option.
 
-    Returns
-    -------
-    string
-        The input.
+    Returns:
+        string: The input.
     """
     o = True
 

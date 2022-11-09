@@ -1,4 +1,4 @@
-from inputtreeclass import InputTree
+from inputtree import InputTree
 
 c = [
   "Agua",
@@ -34,6 +34,8 @@ c = [
 
 ]
 
-a = InputTree(tree=9).input(c)
+a = InputTree(tree=9, separator="", maxLen=20, minLen=5, itemSeparator="  ").input(c)
+
+# a = InputTree().input(c)
 
 print("Choice: %s" % a)
