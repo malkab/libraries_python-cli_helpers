@@ -1,5 +1,5 @@
 import math
-from utils import shortenString
+from ..utils import shortenString
 
 # --------------------------------------
 #
@@ -47,6 +47,10 @@ class InputTree:
     Returns:
         string: The final choice.
     """
+    # Reset
+    self.history = []
+    self.finish = None
+
     choices = [ x.strip() for x in choices ]
 
     listSet = sorted(list(set(choices)))
