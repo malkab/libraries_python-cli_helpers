@@ -1,6 +1,6 @@
 import math
 from sshkeyboard import listen_keyboard, stop_listening
-from ..utils import shortenString
+from .shortenString import shortenString
 
 # --------------------------------------
 #

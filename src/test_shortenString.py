@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # coding=UTF8
 
-from utils import shortenString
+from cli_helpers.src.cli_helpers import shortenString
 
 s0 = "Aute deserunt voluptate ut sunt sunt pariatur tempor eiusmod proident"
 s1 = "Esse veniam ut nisi officia est"

@@ -1,4 +1,4 @@
-from inputtree import InputTree
+from cli_helpers.src.cli_helpers import InputTree
 
 c = [
   "Agua",
