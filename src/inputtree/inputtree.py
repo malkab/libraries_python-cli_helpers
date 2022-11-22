@@ -1,4 +1,5 @@
 import math
+from sshkeyboard import listen_keyboard, stop_listening
 from ..utils import shortenString
 
 # --------------------------------------
@@ -14,7 +15,7 @@ class InputTree:
   """
 
   def __init__(self, tree=9, maxLen=None, minLen=None, separator=" - ",
-    itemSeparator=": "):
+    itemSeparator=": ", indentation=0):
     """
     Constructor.
 
@@ -27,6 +28,7 @@ class InputTree:
         separator (str, optional): Separator of items. Defaults to " - ".
         itemSeparator (str, optional): Separator between the item number and the
         options. Defaults to ": ".
+        indentation (int, optional): Number of spaces to indent. Defaults to 0.
     """
     self.tree = max(min(tree, 9), 2)
     self.maxLen = maxLen
@@ -35,14 +37,20 @@ class InputTree:
     self.itemSeparator = itemSeparator
     self.history = []
     self.finish = None
+    self.indentation = indentation
+
+    self.keyPressed = None
 
 
-  def input(self, choices):
+  def input(self, choices, prompt=None, selection=None):
     """
     Fire the input process.
 
     Args:
         choices (string list): List of options to choose from.
+        prompt (string, optional): Optional prompt, defaults to None.
+        selection (string, optinal): Prefix message after a selection.
+          If None, nothing will be displayed
 
     Returns:
         string: The final choice.
@@ -50,12 +58,28 @@ class InputTree:
     # Reset
     self.history = []
     self.finish = None
+    self.multiSelected = False
 
-    choices = [ x.strip() for x in choices ]
+    if not isinstance(choices, list):
+      raise TypeError("parameter choices must be a list")
+
+    choices = [ (str(x)).strip() for x in choices ]
 
     listSet = sorted(list(set(choices)))
 
-    return self._process(listSet)[0]
+    if len(listSet) > 0:
+      if prompt and len(listSet) > 1:
+        print(prompt)
+
+      out = self._process(listSet)[0]
+
+      if selection:
+        print("%s%s" % (selection, out))
+
+      return out
+
+    else:
+      return None
 
 
   def _print(self, choices):
@@ -66,22 +90,26 @@ class InputTree:
     Args:
         choices (string list): List of possible options.
     """
-    print()
-
     # Print will depend on if the list is single element
     # or not
+    if self.multiSelected:
+      print()
+
+    # Start adding a blank line to the new selection blocks
+    self.multiSelected = True
+
     for i, v in enumerate(choices):
       if len(v) == 1:
-        print("%s%s%s" % (i + 1, self.itemSeparator,
+        print("%s%s%s%s" % (" "*self.indentation, i + 1, self.itemSeparator,
           shortenString(v[0], self.maxLen, self.minLen)))
       else:
-        print("%s%s%s%s%s" % (i + 1, self.itemSeparator,
+        print("%s%s%s%s%s%s" % (" "*self.indentation, i + 1, self.itemSeparator,
           shortenString(v[0], self.maxLen, self.minLen),
           self.separator,
           shortenString(v[-1], self.maxLen, self.minLen)))
 
     if len(self.history) > 0:
-      print("0:  Go back")
+      print("%s0%sGo back" % (" "*self.indentation, self.itemSeparator))
 
 
   def _process(self, choices):
@@ -117,8 +145,10 @@ class InputTree:
       blocks = [ *blocks[1:], b ]
 
       self._print(blocks)
-      print()
-      a = self._inputChoice()
+
+      # Ask for option, but taking into account the number of
+      # available options
+      a = self._inputChoice(len(blocks))
 
       if isinstance(a, list):
         return a
@@ -131,32 +161,35 @@ class InputTree:
         return self._process(blocks[selectedIndex])
 
 
-  def _inputChoice(self):
+  def _keyPress(self):
+    def press(key):
+      self.keyPressed = key
+      stop_listening()
+
+    listen_keyboard(
+      on_press=press
+    )
+
+
+  def _inputChoice(self, lenBlocks):
     """
     Controls the input of the option.
 
     Returns:
         string: The input.
     """
-    o = True
+    while True:
+      # o = False
 
-    while o:
-      o = False
-      a = input()
+      self._keyPress()
 
-      if len(a) > 0:
-        a = a[0]
+      if self.keyPressed.isnumeric() and self.keyPressed != "":
+        if self.keyPressed == "0" and len(self.history) > 0:
+          b = self.history.pop()
 
-        if a.isnumeric() and a != "":
-          if a == "0" and len(self.history) > 0:
-            b = self.history.pop()
+          return self._process(b)
 
-            return self._process(b)
-
-          return a
-
-        else:
-          o = True
-
-      else:
-        o = True
+        # If the pressed number is less than available options, keep in the
+        # loop
+        if int(self.keyPressed) <= lenBlocks:
+          return self.keyPressed

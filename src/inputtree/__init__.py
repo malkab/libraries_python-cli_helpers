@@ -1,1 +1,1 @@
-from .inputtreeclass import InputTree
+from .inputtree import InputTree
