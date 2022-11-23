@@ -6,5 +6,8 @@
 # VSCode Dev Containers.
 #
 # -----------------------------------------------------------------
+python -m pip install --upgrade pip
+python -m pip install --upgrade build
+
 pip install \
   sshkeyboard

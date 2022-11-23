@@ -1,6 +1,6 @@
 import math
 from sshkeyboard import listen_keyboard, stop_listening
-from .shortenString import shortenString
+from .shorten_string import shorten_string
 
 # --------------------------------------
 #
@@ -101,12 +101,12 @@ class InputTree:
     for i, v in enumerate(choices):
       if len(v) == 1:
         print("%s%s%s%s" % (" "*self.indentation, i + 1, self.itemSeparator,
-          shortenString(v[0], self.maxLen, self.minLen)))
+          shorten_string(v[0], self.maxLen, self.minLen)))
       else:
         print("%s%s%s%s%s%s" % (" "*self.indentation, i + 1, self.itemSeparator,
-          shortenString(v[0], self.maxLen, self.minLen),
+          shorten_string(v[0], self.maxLen, self.minLen),
           self.separator,
-          shortenString(v[-1], self.maxLen, self.minLen)))
+          shorten_string(v[-1], self.maxLen, self.minLen)))
 
     if len(self.history) > 0:
       print("%s0%sGo back" % (" "*self.indentation, self.itemSeparator))

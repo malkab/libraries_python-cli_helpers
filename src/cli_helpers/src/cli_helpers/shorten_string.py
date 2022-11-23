@@ -4,7 +4,7 @@
 # min / max length
 #
 # --------------------------------------
-def shortenString(string, maxLen, minLen=0):
+def shorten_string(string, maxLen, minLen=0):
   """
   Shortens (and optionally pads) a string to a given length.
 

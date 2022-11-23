@@ -1,4 +1,4 @@
-def validatedInput(prompt=None, validation=None, default=None):
+def validated_input(prompt=None, validation=None, default=None):
   """
   Validated input, with optional validator.
 
