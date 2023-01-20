@@ -1,6 +1,7 @@
 import math
 from sshkeyboard import listen_keyboard, stop_listening
 from .shorten_string import shorten_string
+import typing
 
 # --------------------------------------
 #
@@ -32,17 +33,17 @@ class InputTree:
     """
     self.tree = max(min(tree, 9), 2)
     self.maxLen = maxLen
-    self.minLen = minLen
+    self.minLen: typing.Any = minLen
     self.separator = separator
     self.itemSeparator = itemSeparator
     self.history = []
     self.finish = None
     self.indentation = indentation
 
-    self.keyPressed = None
+    self.keyPressed: typing.Any = None
 
 
-  def input(self, choices, prompt=None, selection=None):
+  def input(self, choices, prompt=None, selection=None) -> typing.Any:
     """
     Fire the input process.
 
