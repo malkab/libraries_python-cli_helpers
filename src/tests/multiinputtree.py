@@ -4,39 +4,22 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 from cli_helpers.src.cli_helpers import MultiInputTree
 
 
-TODO: HACERLO CON UN DICCIONARIO ANIDADO Y QUE EL PATH SEAN LAS PROPIAS CLAVES
+# TODO: HACERLO CON UN DICCIONARIO ANIDADO Y QUE EL PATH SEAN LAS PROPIAS CLAVES
 
 c= {
   "A": {
     "B": {
-      "C": 0,
-      "D": 1
+      "C": [ 0, 1, 2 ],
+      "D": [ 3, 4, 5 ]
     },
     "E": {
-      "F": 2,
+      "F": [ 6, 7, 8 ],
     }
   },
   "H": {
-    "I": 3,
+    "I": [ 9, 10 ],
   }
 }
-
-c = [
-  [ "A" ],
-
-  [ "B" ],
-
-  [ "C" ],
-
-  [ "D" ],
-
-  [ "E" ],
-
-  [ "F" ],
-
-  [ "G", "H" ],
-  [ "I", "J" ]
-]
 
 mit = MultiInputTree(tree=9, separator="", maxLen=20, minLen=5, itemSeparator="  ")
 
@@ -44,4 +27,4 @@ mit = MultiInputTree(tree=9, separator="", maxLen=20, minLen=5, itemSeparator=" 
 
 # print("Choice: %s" % a)
 
-mit.history(c, [ 0, 0, 0, 0, 0, 0, 0, 1, 1 ])
+a = mit.input(c)

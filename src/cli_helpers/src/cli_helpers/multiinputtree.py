@@ -35,16 +35,24 @@ class MultiInputTree():
     self.keyPressed = None
 
 
-  def input(self, choices: list[str], prompt=None, selection=None):
-    history: list[int] = []
+  def input(self, choices: dict, prompt=None, selection=None):
+    # To store the sequence of choices
+    choicesHistory: list(str) = []
+
+    print("D: A", choices)
+    print("D: B", self.dictSearch(choices, ["A", "B", "C", 1]))
+
+    # Check dictionary keys, first level
+    print("D: ", choices.keys())
+
+    # history: list[int] = []
 
     it: InputTree = InputTree(tree=self.tree, maxLen=self.maxLen, minLen=self.minLen,
       separator=self.separator, itemSeparator=self.itemSeparator, indentation=self.indentation)
 
-    # while location < len(choices):
-    #   choice: str = it.input(choices[location], prompt, selection)
+    a = it.input(list(choices.keys()))
 
-    #   history.append(choice)
+
 
 
   def history(self, choices: list[list[str]], history: list[int],
@@ -61,3 +69,19 @@ class MultiInputTree():
     #   start -= 1
 
     self.history(choices, history, pointer + 1, start, values)
+
+
+
+
+  def dictSearch(self, d: dict, path: list[str]) -> any:
+    print("D: ", 0)
+
+    elem = d
+
+    for x in path:
+      if type(elem) is list:
+        elem = elem[x]
+      else:
+        elem = elem.get(x)
+
+    return elem
