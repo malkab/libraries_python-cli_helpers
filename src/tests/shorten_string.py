@@ -4,7 +4,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from cli_helpers.src.cli_helpers import shorten_string
+from cli_helpers.src.cli_helpers.shorten_string import shorten_string
 
 s0 = "Aute deserunt voluptate ut sunt sunt pariatur tempor eiusmod proident"
 s1 = "Esse veniam ut nisi officia est"

@@ -4,7 +4,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from cli_helpers.src.cli_helpers import debug_print
+from cli_helpers.src.cli_helpers.debug_print import debug_print
 
 debug_print("The Mighty Descriptor", "The Phenomenal Message")
 

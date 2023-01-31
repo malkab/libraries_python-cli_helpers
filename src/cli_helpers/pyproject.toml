@@ -6,9 +6,9 @@ build-backend = "hatchling.build"
 name = "cli_helpers"
 version = "0.0.1"
 authors = [
-  { name="Example Author", email="author@example.com" },
+  { name="Juan Pedro Pérez Alcántara", email="jp.perez.alcantara@gmail.com" },
 ]
-description = "A small example package"
+description = "Some CLI helpers"
 readme = "README.md"
 requires-python = ">=3.7"
 classifiers = [

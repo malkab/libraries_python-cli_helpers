@@ -1,10 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from cli_helpers.src.cli_helpers import MultiInputTree
-
-
-# TODO: HACERLO CON UN DICCIONARIO ANIDADO Y QUE EL PATH SEAN LAS PROPIAS CLAVES
+from cli_helpers.src.cli_helpers.multiinputtree import MultiInputTree
 
 c= {
   "A": {
@@ -23,8 +20,4 @@ c= {
 
 mit = MultiInputTree(tree=9, separator="", maxLen=20, minLen=5, itemSeparator="  ")
 
-# a = InputTree().input(c)
-
-# print("Choice: %s" % a)
-
-a = mit.input(c)
+mit.input(c, prompt="\nSelect: ", selection="Good choice! ")

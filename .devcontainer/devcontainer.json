@@ -1,5 +1,5 @@
 {
-  "image": "malkab/python:3.9-buster",
+  "image": "malkab/python:3.11-bullseye",
   "name": "cli_helpers",
 
   "customizations": {

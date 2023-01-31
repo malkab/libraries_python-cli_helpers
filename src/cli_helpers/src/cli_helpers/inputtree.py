@@ -9,10 +9,12 @@ import typing
 #
 # --------------------------------------
 class InputTree:
-  """
-  CLI input to select a value from a list, segmenting the list in groups
+  """CLI input to select a value from a list, segmenting the list in groups
   selectable by numbers, allowing for back navigation, until individual elements
   of the list are individually selectable.
+
+  Raises:
+      TypeError: When the supplied input to the input method is not a list.
   """
 
   def __init__(self, tree=9, maxLen=None, minLen=None, separator=" - ",
@@ -23,7 +25,6 @@ class InputTree:
     Args
         tree (int, optional): Number of groups to use while asking for inputs.
         Defaults to 9, minimum of 2.
-
         maxLen (int, optional): Max length of items. Defaults to None.
         minLen (int, optional): Min length of items. Defaults to None.
         separator (str, optional): Separator of items. Defaults to " - ".
@@ -43,6 +44,11 @@ class InputTree:
     self.keyPressed: typing.Any = None
 
 
+  # --------------------------------------
+  #
+  # Main method.
+  #
+  # --------------------------------------
   def input(self, choices, prompt=None, selection=None) -> typing.Any:
     """
     Fire the input process.
@@ -82,7 +88,11 @@ class InputTree:
     else:
       return None
 
-
+  # --------------------------------------
+  #
+  # Print the choices.
+  #
+  # --------------------------------------
   def _print(self, choices):
     """
     Print the choices, depending on if it is still a list of possible options or
@@ -112,7 +122,11 @@ class InputTree:
     if len(self.history) > 0:
       print("%s0%sGo back" % (" "*self.indentation, self.itemSeparator))
 
-
+  # --------------------------------------
+  #
+  # Internal recursive method to process shrinking list of options.
+  #
+  # --------------------------------------
   def _process(self, choices):
     """
     Internal recursive method to process shrinking list of options.
@@ -161,7 +175,11 @@ class InputTree:
 
         return self._process(blocks[selectedIndex])
 
-
+  # --------------------------------------
+  #
+  # Check for key press.
+  #
+  # --------------------------------------
   def _keyPress(self):
     def press(key):
       self.keyPressed = key
@@ -171,7 +189,11 @@ class InputTree:
       on_press=press
     )
 
-
+  # --------------------------------------
+  #
+  # Input of an option.
+  #
+  # --------------------------------------
   def _inputChoice(self, lenBlocks):
     """
     Controls the input of the option.
